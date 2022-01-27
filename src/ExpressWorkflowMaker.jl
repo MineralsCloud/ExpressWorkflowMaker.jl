@@ -1,5 +1,5 @@
 module ExpressWorkflowMaker
 
-# Write your package code here.
+include("Config.jl")
 
 end
