@@ -1,0 +1,13 @@
+name = "ExpressWorkflowMaker"
+uuid = "8c89519e-1fc9-4186-962c-d67d347431c4"
+authors = ["singularitti <singularitti@outlook.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
