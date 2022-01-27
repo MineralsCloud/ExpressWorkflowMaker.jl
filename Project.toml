@@ -3,6 +3,13 @@ uuid = "8c89519e-1fc9-4186-962c-d67d347431c4"
 authors = ["singularitti <singularitti@outlook.com>"]
 version = "0.1.0"
 
+[deps]
+AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
+Configurations = "5218b696-f38b-4ac9-8b61-a12ec717816d"
+Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+UnitfulAtomic = "a7773ee8-282e-5fa2-be4e-bd808c38a91a"
+
 [compat]
 julia = "1"
 
