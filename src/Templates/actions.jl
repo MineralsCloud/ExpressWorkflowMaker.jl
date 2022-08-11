@@ -1,12 +1,14 @@
 using AbInitioSoftwareBase: save, load, extension
 using AbInitioSoftwareBase.Inputs: Input, getpseudodir, getpotentials
+using Dates: format, now
 using ExpressBase: Action, calculation
+using Logging: with_logger, current_logger
 using Pseudopotentials: download_potential
 using SimpleWorkflows: Job
 
 using ..Config: ConfigFile
 
-export DownloadPotentials
+export DownloadPotentials, LogTime
 export jobify
 
 struct ExpandConfig{T} <: Action{T} end  # To be extended
@@ -33,3 +35,18 @@ function jobify(x::DownloadPotentials{T}, file::ConfigFile) where {T}
     config = ExpandConfig{T}()(raw_config)
     return jobify(x, config)
 end
+
+struct LogTime{T} <: Action{T} end
+function (x::LogTime)()
+    with_logger(current_logger()) do
+        println(
+            "The calculation ",
+            calculation(x),
+            "starts at ",
+            format(now(), "HH:MM:SS u dd, yyyy"),
+            '.',
+        )
+    end
+end
+
+jobify(x::LogTime) = Job(() -> x())
