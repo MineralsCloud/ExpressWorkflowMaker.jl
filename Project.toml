@@ -6,7 +6,9 @@ version = "0.1.0"
 [deps]
 AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
 Configurations = "5218b696-f38b-4ac9-8b61-a12ec717816d"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 ExpressBase = "6bf22d12-b2e3-4e51-8f6d-9d050a32c5d5"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Pseudopotentials = "1b2dc2e6-48aa-4f00-b8f4-19d1a71d7a0e"
 SimpleWorkflows = "6a97d125-85da-4b66-b300-4bba10360563"
 
