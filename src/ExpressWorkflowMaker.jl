@@ -1,5 +1,6 @@
 module ExpressWorkflowMaker
 
+include("Config.jl")
 include("Templates/Templates.jl")
 
 using AbInitioSoftwareBase.Commands: CommandConfig
