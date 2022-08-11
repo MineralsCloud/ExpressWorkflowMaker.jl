@@ -6,6 +6,7 @@ using Logging: with_logger, current_logger
 using Pseudopotentials: download_potential
 using SimpleWorkflows: Job
 
+using ..ExpressWorkflowMaker: distribute_procs
 using ..Config: ConfigFile
 
 export DownloadPotentials, LogTime
@@ -50,3 +51,13 @@ function (x::LogTime)()
 end
 
 jobify(x::LogTime) = Job(() -> x())
+
+struct RunCmd{T} <: Action{T} end
+
+function jobify(x::RunCmd, np::Integer, files, kwargs...)
+    jobsize = length(files)
+    np = distribute_procs(np, jobsize)
+    return map(files) do (input, output)
+        Job(() -> x(input, output; np = np, kwargs...))
+    end
+end
