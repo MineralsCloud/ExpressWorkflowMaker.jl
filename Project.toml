@@ -3,6 +3,11 @@ uuid = "e7e42fff-c592-4d8a-934a-030a060c623e"
 authors = ["Reno <singularitti@outlook.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
+ExpressBase = "6bf22d12-b2e3-4e51-8f6d-9d050a32c5d5"
+Pseudopotentials = "1b2dc2e6-48aa-4f00-b8f4-19d1a71d7a0e"
+
 [compat]
 julia = "1"
 
