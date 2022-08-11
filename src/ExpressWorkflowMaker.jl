@@ -56,4 +56,14 @@ myuparse(str::AbstractString) =
     uparse(filter(!isspace, str); unit_context=[Unitful, UnitfulAtomic])
 myuparse(num::Number) = num  # FIXME: this might be error-prone!
 
+export distribute_procs
+
+function distribute_procs(nprocs, jobsize)
+    quotient, remainder = divrem(nprocs, jobsize)
+    if !iszero(remainder)
+        @warn "the processes are not fully balanced! Consider the number of subjobs!"
+    end
+    return quotient
+end
+
 end
