@@ -8,7 +8,7 @@ import Configurations: from_dict
 
 export @vopt, vopt
 
-abstract type VectorOption <: AbstractVector{Float64} end
+abstract type VectorOption end
 
 macro vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
     return esc(vopt(type, unit, alias, checkvalues, checkunit))
@@ -59,9 +59,5 @@ Base.eltype(iter::VectorOption) = Quantity{Float64,dimension(iter.unit),typeof(i
 Base.length(iter::VectorOption) = length(iter.values)
 
 Base.size(iter::VectorOption) = size(iter.values)
-
-Base.getindex(A::VectorOption, I) = getindex(A.values, I) * A.unit
-
-Base.setindex!(A::VectorOption, v, I) = setindex!(A.values, v, I)
 
 end
