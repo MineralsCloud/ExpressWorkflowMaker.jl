@@ -1,17 +1,27 @@
 module Config
 
-using Configurations
-using Unitful: Unitful, PressureUnits, uparse, @u_str
+using Configurations: OptionField, @option
+using Unitful: Unitful, FreeUnits, uparse
 using UnitfulAtomic: UnitfulAtomic
 
-import Configurations: convert_to_option
+import Configurations: from_dict
 
 export @vopt, vopt
 
 abstract type VectorOption end
 
-convert_to_option(::Type{<:VectorOption}, ::Type{Vector}, str::AbstractString) =
-    eval(Meta.parse(str))
+from_dict(
+    ::Type{<:VectorOption},
+    ::OptionField{:values},
+    ::Type{Vector{Float64}},
+    str::AbstractString,
+) = eval(Meta.parse(str))
+from_dict(
+    ::Type{<:VectorOption},
+    ::OptionField{:unit},
+    ::Type{<:FreeUnits},
+    str::AbstractString,
+) = _uparse(str)
 
 Base.size(A::VectorOption) = size(A.values)
 
@@ -25,11 +35,10 @@ end
 
 function vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
     unit = _uparse(unit)
-    utype = typeof(unit)
     return quote
         Config.@option $alias struct $type <: Config.VectorOption
             values::Vector{Float64}
-            unit::$utype
+            unit::Config.FreeUnits
             function $type(values, unit = $unit)
                 $checkvalues(values)
                 $checkunit(unit)
