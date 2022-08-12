@@ -9,6 +9,7 @@ ExpressBase = "6bf22d12-b2e3-4e51-8f6d-9d050a32c5d5"
 Pseudopotentials = "1b2dc2e6-48aa-4f00-b8f4-19d1a71d7a0e"
 
 [compat]
+AbInitioSoftwareBase = "0.9"
 julia = "1"
 
 [extras]
