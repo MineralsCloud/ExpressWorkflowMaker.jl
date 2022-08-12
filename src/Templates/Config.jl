@@ -8,26 +8,7 @@ import Configurations: from_dict
 
 export @vopt, vopt
 
-abstract type VectorOption end
-
-from_dict(
-    ::Type{<:VectorOption},
-    ::OptionField{:values},
-    ::Type{Vector{Float64}},
-    str::AbstractString,
-) = eval(Meta.parse(str))
-from_dict(
-    ::Type{<:VectorOption},
-    ::OptionField{:unit},
-    ::Type{<:FreeUnits},
-    str::AbstractString,
-) = _uparse(str)
-
-Base.size(A::VectorOption) = size(A.values)
-
-Base.getindex(A::VectorOption, I) = getindex(A.values, I) * A.unit
-
-Base.setindex!(A::VectorOption, v, I) = setindex!(A.values, v, I)
+abstract type VectorOption <: AbstractVector{Float64} end
 
 macro vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
     return esc(vopt(type, unit, alias, checkvalues, checkunit))
@@ -51,4 +32,16 @@ end
 _uparse(str::AbstractString) =
     uparse(filter(!isspace, str); unit_context = [Unitful, UnitfulAtomic])
 
+from_dict(
+    ::Type{<:VectorOption},
+    ::OptionField{:values},
+    ::Type{Vector{Float64}},
+    str::AbstractString,
+) = eval(Meta.parse(str))
+from_dict(
+    ::Type{<:VectorOption},
+    ::OptionField{:unit},
+    ::Type{<:FreeUnits},
+    str::AbstractString,
+) = _uparse(str)
 end
