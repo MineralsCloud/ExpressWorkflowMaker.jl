@@ -8,14 +8,14 @@ import Configurations: from_dict
 
 export @vopt
 
-abstract type VectorOption end
+abstract type VectorWithUnitOption end
 
 # See https://github.com/Roger-luo/Configurations.jl/blob/933fd46/src/codegen.jl#L82-L84
 macro vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
     unit = _uparse(unit)
-    ex = :(struct $type <: VectorOption
+    ex = :(struct $type <: $VectorWithUnitOption
         values::Vector{Float64}
-        unit::Config.FreeUnits
+        unit::$FreeUnits
         function $type(values, unit = $unit)
             $checkvalues(values)
             $checkunit(unit)
@@ -29,20 +29,20 @@ _uparse(str::AbstractString) =
     uparse(filter(!isspace, str); unit_context = [Unitful, UnitfulAtomic])
 
 from_dict(
-    ::Type{<:VectorOption},
+    ::Type{<:VectorWithUnitOption},
     ::OptionField{:values},
     ::Type{Vector{Float64}},
     str::AbstractString,
 ) = eval(Meta.parse(str))
 from_dict(
-    ::Type{<:VectorOption},
+    ::Type{<:VectorWithUnitOption},
     ::OptionField{:unit},
     ::Type{<:FreeUnits},
     str::AbstractString,
 ) = _uparse(str)
 
 # Similar to https://github.com/JuliaCollections/IterTools.jl/blob/0ecaa88/src/IterTools.jl#L1028-L1032
-function Base.iterate(iter::VectorOption, state = 1)
+function Base.iterate(iter::VectorWithUnitOption, state = 1)
     if state > length(iter.values)
         return nothing
     else
@@ -50,10 +50,11 @@ function Base.iterate(iter::VectorOption, state = 1)
     end
 end
 
-Base.eltype(iter::VectorOption) = Quantity{Float64,dimension(iter.unit),typeof(iter.unit)}
+Base.eltype(iter::VectorWithUnitOption) =
+    Quantity{Float64,dimension(iter.unit),typeof(iter.unit)}
 
-Base.length(iter::VectorOption) = length(iter.values)
+Base.length(iter::VectorWithUnitOption) = length(iter.values)
 
-Base.size(iter::VectorOption) = size(iter.values)
+Base.size(iter::VectorWithUnitOption) = size(iter.values)
 
 end
