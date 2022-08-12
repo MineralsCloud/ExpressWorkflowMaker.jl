@@ -13,6 +13,10 @@ struct ConfigFile{T}
     source::T
 end
 
+Base.open(file::ConfigFile, args...; kwargs...) = open(file.source, args...; kwargs...)
+Base.open(f::Function, file::ConfigFile, args...; kwargs...) =
+    open(f, file.source, args...; kwargs...)
+
 abstract type VectorWithUnitOption end
 
 # See https://github.com/Roger-luo/Configurations.jl/blob/933fd46/src/codegen.jl#L82-L84
