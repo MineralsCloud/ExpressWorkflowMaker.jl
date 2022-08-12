@@ -18,7 +18,11 @@ UnitfulAtomic = "a7773ee8-282e-5fa2-be4e-bd808c38a91a"
 [compat]
 AbInitioSoftwareBase = "0.9"
 Formatting = "0.4"
+Configurations = "0.17"
 Pseudopotentials = "0.8"
+SimpleWorkflows = "0.16"
+UnitfulAtomic = "1"
+Unitful = "1"
 julia = "1"
 
 [extras]
