@@ -1,32 +1,28 @@
 module Config
 
-using Configurations: OptionField, @option
+using Configurations: OptionField, option_m
 using Unitful: Unitful, FreeUnits, Quantity, uparse, dimension
 using UnitfulAtomic: UnitfulAtomic
 
 import Configurations: from_dict
 
-export @vopt, vopt
+export @vopt
 
 abstract type VectorOption end
 
+# See https://github.com/Roger-luo/Configurations.jl/blob/933fd46/src/codegen.jl#L82-L84
 macro vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
-    return esc(vopt(type, unit, alias, checkvalues, checkunit))
-end
-
-function vopt(type, unit, alias, checkvalues = identity, checkunit = identity)
     unit = _uparse(unit)
-    return quote
-        Config.@option $alias struct $type <: Config.VectorOption
-            values::Vector{Float64}
-            unit::Config.FreeUnits
-            function $type(values, unit = $unit)
-                $checkvalues(values)
-                $checkunit(unit)
-                return new(values, unit)
-            end
+    ex = :(struct $type <: VectorOption
+        values::Vector{Float64}
+        unit::Config.FreeUnits
+        function $type(values, unit = $unit)
+            $checkvalues(values)
+            $checkunit(unit)
+            return new(values, unit)
         end
-    end
+    end)
+    return esc(option_m(__module__, ex, alias))
 end
 
 _uparse(str::AbstractString) =
