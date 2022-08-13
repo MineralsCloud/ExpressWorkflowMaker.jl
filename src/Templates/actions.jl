@@ -9,8 +9,9 @@ using SimpleWorkflows: Job
 using ..ExpressWorkflowMaker: distribute_procs
 using ..Config: ConfigFile
 
-export DownloadPotentials, LogTime
-export jobify
+import ..ExpressWorkflowMaker: jobify
+
+export DownloadPotentials, LogTime, jobify
 
 struct ExpandConfig{T} <: Action{T} end  # To be extended
 

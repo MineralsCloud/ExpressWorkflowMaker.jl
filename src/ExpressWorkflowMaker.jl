@@ -11,6 +11,7 @@ function distribute_procs(nprocs, jobsize)
 end
 
 include("Config.jl")
+include("actions.jl")
 include("Templates/Templates.jl")
 
 end
