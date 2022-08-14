@@ -20,14 +20,13 @@ Base.open(f::Function, file::ConfigFile, args...; kwargs...) =
 abstract type VectorWithUnitOption end
 
 # See https://github.com/Roger-luo/Configurations.jl/blob/933fd46/src/codegen.jl#L82-L84
-macro vopt(type, unit, alias, checkvector = identity, checkunit = identity)
+macro vopt(type, unit, alias, check = (_, _) -> nothing)
     unit = _uparse(unit)
     ex = :(struct $type <: $VectorWithUnitOption
         vector::Vector{Float64}
         unit::$FreeUnits
         function $type(vector, unit = $unit)
-            $checkvector(vector)
-            $checkunit(unit)
+            $check(vector, unit)
             return new(vector, unit)
         end
     end)

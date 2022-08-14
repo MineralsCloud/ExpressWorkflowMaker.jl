@@ -13,8 +13,6 @@ import ..ExpressWorkflowMaker: jobify
 
 export DownloadPotentials, LogTime, jobify
 
-struct ExpandConfig{T} <: Action{T} end  # To be extended
-
 struct DownloadPotentials{T} <: Action{T} end
 function (::DownloadPotentials)(template::Input)
     dir = getpseudodir(template)

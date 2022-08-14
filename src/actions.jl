@@ -1,3 +1,5 @@
+using ExpressBase: Action
+
 export distribute_procs
 
 function distribute_procs(nprocs, jobsize)
@@ -9,3 +11,5 @@ function distribute_procs(nprocs, jobsize)
 end
 
 function jobify end
+
+struct ExpandConfig{T} <: Action{T} end  # To be extended
